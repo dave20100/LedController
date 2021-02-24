@@ -1,0 +1,32 @@
+<div class="card text-white border-primary mb-3 text-center">
+    <div class="card-header bg-primary">
+        <h5>{{device.name}}</h5>
+    </div>
+    <div class="card-body">
+      <span class="col-12">Mode:</span>
+      <div class="btn-group col-12 p-2" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-info dropdown-toggle"
+                aria-controls="dropdown-basic">{{modes[device.mode]}}<span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu col-12"
+            role="menu" aria-labelledby="button-basic">
+          <button class="dropdown-item" value="mode" *ngFor="let mode of modes;let indexOfelement=index;" (click)="setMode(indexOfelement)">{{mode}}</button>
+        </ul>
+      </div>
+      <span>Color</span>
+      <label class="form-label col-12">Speed:</label>
+      <input type="range" #speed (change)="setSpeed(speed.value)" class="custom-range" min="10" max="65535" value="{{device.speed}}">
+      <input type="number" #speedtext (change)="setSpeed(speedtext.value)" class="form-control" min="10" max="65535" value="{{device.speed}}">
+      <label class="form-label col-12">Brightness:</label>
+      <input type="range" #brightness (change)="setBrightness(brightness.value)" class="custom-range" min="0" max="255" value="{{device.brightness}}">
+      <input type="number" #brightnesstext (change)="setBrightness(brightnesstext.value)" class="form-control" min="0" max="255" value="{{device.brightness}}">
+      <div class="row justify-content-between p-3">
+        <button (click)=turnOn() class="btn btn-success col-4" [disabled]="device.isRunning">Turn on</button>
+        <button (click)=turnOff() class="btn btn-danger col-4" [disabled]="!device.isRunning">Turn off</button>
+      </div>
+      
+      <div class="row justify-content-between p-3">
+        <button class="btn btn-warning col-12">Set all</button>
+      </div>
+    </div>
+</div>

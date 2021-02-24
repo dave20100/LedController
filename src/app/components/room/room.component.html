@@ -1,0 +1,6 @@
+
+  <div class="container-fluid">
+    <div class="row">
+      <app-device class="col-xl-4 col-md-6 p-3" *ngFor="let roomDevice of devices" [device]=roomDevice [modes]=modes (changeInDevices)=setDevices()></app-device>
+    </div>
+  </div>
