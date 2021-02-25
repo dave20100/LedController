@@ -10,14 +10,31 @@ import { Device } from 'src/app/model/device';
 })
 export class RoomComponent {
   modes: string[];
-  devices: Device[];
+  devices: Device[] = [];
 
   constructor(private espService: EspService) { 
     this.espService.getModes().subscribe(response => this.modes = response);
-    this.espService.getDevices().subscribe(response => this.devices = response);
+    for (let index = 0; index < 1; index++) {
+      this.espService.getDevices(index).subscribe(response => {
+        response.forEach(device => {
+          this.devices.push(device);
+        });
+      });
+    }
   }
 
   setDevices(): void {
+    this.espService.setDevices(this.devices).subscribe();
+  }
+
+  setAllDevices(settings: Device): void {
+    this.devices.forEach(deviceSettings => {
+      deviceSettings.color = settings.color;
+      deviceSettings.mode = settings.mode;
+      deviceSettings.speed = settings.speed;
+      deviceSettings.isRunning = settings.isRunning;
+      deviceSettings.brightness = settings.brightness;
+    });
     this.espService.setDevices(this.devices).subscribe();
   }
 }

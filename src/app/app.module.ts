@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeviceComponent } from './components/device/device.component';
 import { RoomComponent } from './components/room/room.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
+import { ColorPickerModule } from 'ngx-color-picker';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ColorPickerModule,
     BsDropdownModule.forRoot()
   ],
   providers: [],

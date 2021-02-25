@@ -9,16 +9,26 @@ import { Device } from 'src/app/model/device';
 export class DeviceComponent implements OnInit {
   @Input() device: Device;
   @Input() modes: string[];
+  
   @Output() changeInDevices = new EventEmitter();
+  @Output() setAllDevices = new EventEmitter<Device>();
+
+  color: string;
 
   constructor() { 
   }
-
+  
   ngOnInit(): void {
+    this.color = '#' + this.device.color.toString(16);
   }
 
   setMode(index: number): void {
     this.device.mode = index;
+    this.settingsChanged();
+  }
+
+  setColor(): void {
+    this.device.color = parseInt(this.color.substring(1), 16);
     this.settingsChanged();
   }
 
@@ -44,17 +54,16 @@ export class DeviceComponent implements OnInit {
     this.settingsChanged();
   }
 
-  turnOn(): void {
-    this.device.isRunning = true;
-    this.settingsChanged();
-  }
-
-  turnOff(): void {
-    this.device.isRunning = false;
+  toggle(): void {
+    this.device.isRunning = !this.device.isRunning;
     this.settingsChanged();
   }
 
   settingsChanged() {
     this.changeInDevices.emit();
+  }
+
+  setAll(settings: Device) {
+    this.setAllDevices.emit(settings);
   }
 }

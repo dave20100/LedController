@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class EspService {
-    EspUrl = 'http://192.168.1.30';
+    EspUrl = ['http://192.168.1.30'];
 
     constructor(private http: HttpClient) { }
 
@@ -14,8 +14,8 @@ export class EspService {
         return this.http.get<string[]>(this.EspUrl + "/modes");
     }
 
-    getDevices(): Observable<Device[]> {
-        return this.http.get<Device[]>(this.EspUrl + '/devices');
+    getDevices(index: number): Observable<Device[]> {
+        return this.http.get<Device[]>(this.EspUrl[index] + '/devices');
     }
 
     setDevices(devices: Device[]) {
