@@ -14,7 +14,7 @@ export class RoomComponent {
 
   constructor(private espService: EspService) { 
     this.espService.getModes().subscribe(response => this.modes = response);
-    for (let index = 0; index < 1; index++) {
+    for (let index = 0; index < this.espService.EspUrl.length; index++) {
       this.espService.getDevices(index).subscribe(response => {
         response.forEach(device => {
           this.devices.push(device);
@@ -24,7 +24,9 @@ export class RoomComponent {
   }
 
   setDevices(): void {
-    this.espService.setDevices(this.devices).subscribe();
+    for (let index = 0; index < this.espService.EspUrl.length; index++) {
+      this.espService.setDevices(index, this.devices).subscribe();
+    }
   }
 
   setAllDevices(settings: Device): void {
@@ -35,6 +37,8 @@ export class RoomComponent {
       deviceSettings.isRunning = settings.isRunning;
       deviceSettings.brightness = settings.brightness;
     });
-    this.espService.setDevices(this.devices).subscribe();
+    for (let index = 0; index < this.espService.EspUrl.length; index++) {
+      this.espService.setDevices(index, this.devices).subscribe();
+    }
   }
 }

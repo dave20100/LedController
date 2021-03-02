@@ -19,7 +19,7 @@ export class DeviceComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.color = '#' + this.device.color.toString(16);
+    this.color = '#' + this.device.color.toString(16).padStart(6, '0');
   }
 
   setMode(index: number): void {
@@ -64,6 +64,11 @@ export class DeviceComponent implements OnInit {
   }
 
   setAll(settings: Device) {
+    this.color = '#' + settings.color.toString(16).padStart(6, '0');
     this.setAllDevices.emit(settings);
+  }
+
+  getColor() {
+    return '#' + this.device.color.toString(16).padStart(6, '0');
   }
 }
