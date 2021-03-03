@@ -24,12 +24,12 @@
       <input type="range" #brightness (change)="setBrightness(brightness.value)" class="custom-range" min="0" max="255" value="{{device.brightness}}">
       <input type="number" #brightnesstext (change)="setBrightness(brightnesstext.value)" class="text-center form-control" min="0" max="255" value="{{device.brightness}}">
       <label class="form-label col-12">Brightness</label>
-      <div class="row justify-content-between p-3">
+      <div class="row justify-content-between p-2">
         <button (click)=toggle() class="btn btn-success col-4" [disabled]="device.isRunning">Turn on</button>
         <button (click)=toggle() class="btn btn-danger col-4" [disabled]="!device.isRunning">Turn off</button>
       </div>
       
-      <div class="row justify-content-between p-3">
+      <div class="row justify-content-between p-2">
         <button class="btn btn-warning col-12" (click)=setAll(device)>Set all</button>
       </div>
     </div>
