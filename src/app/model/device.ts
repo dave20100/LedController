@@ -6,4 +6,12 @@ export class Device {
     isRunning: boolean;
     mode: number;
 
+
+    cloneSettings(device: Device) {
+        device.color = this.color;
+        device.mode = this.mode;
+        device.speed = this.speed;
+        device.isRunning = this.isRunning;
+        device.brightness = this.brightness;  
+    }
 }

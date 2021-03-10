@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ColorEvent } from 'ngx-color';
 import { Device } from 'src/app/model/device';
 
 @Component({
@@ -13,13 +14,13 @@ export class DeviceComponent implements OnInit {
   @Output() changeInDevices = new EventEmitter();
   @Output() setAllDevices = new EventEmitter<Device>();
 
-  color: string;
+  maxSpeed: number = 25000;
+  maxBrightness: number = 255;
 
   constructor() { 
   }
   
   ngOnInit(): void {
-    this.color = '#' + this.device.color.toString(16).padStart(6, '0');
   }
 
   setMode(index: number): void {
@@ -27,29 +28,17 @@ export class DeviceComponent implements OnInit {
     this.settingsChanged();
   }
 
-  setColor(): void {
-    this.device.color = parseInt(this.color.substring(1), 16);
+  setColor($event: ColorEvent): void {
+    this.device.color = parseInt($event.color.hex.substring(1), 16);
     this.settingsChanged();
   }
 
   setBrightness(brightness: number): void {
-    if(brightness < 0) {
-      brightness = 0
-    }
-    if(brightness > 255) {
-      brightness = 255
-    }
     this.device.brightness = brightness;
     this.settingsChanged();
   }
 
   setSpeed(speed: number): void {
-    if(speed < 10) {
-      speed = 10
-    }
-    if(speed > 65535) {
-      speed = 65535
-    }
     this.device.speed = speed;
     this.settingsChanged();
   }
@@ -64,11 +53,6 @@ export class DeviceComponent implements OnInit {
   }
 
   setAll(settings: Device) {
-    this.color = '#' + settings.color.toString(16).padStart(6, '0');
     this.setAllDevices.emit(settings);
-  }
-
-  getColor() {
-    return '#' + this.device.color.toString(16).padStart(6, '0');
   }
 }

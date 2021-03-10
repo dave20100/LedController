@@ -2,35 +2,31 @@
     <div class="card-header bg-primary">
         <h5>{{device.name}}</h5>
     </div>
-    <div class="card-body">
-      <div class="btn-group col-12 p-2" dropdown>
+    <div class="card-body d-flex flex-column">
+      <div class="btn-group p-2" dropdown>
         <button id="button-basic" dropdownToggle type="button" class="btn btn-info dropdown-toggle"
                 aria-controls="dropdown-basic">{{modes[device.mode]}}<span class="caret"></span>
         </button>
-        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu col-12"
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
             role="menu" aria-labelledby="button-basic">
           <button class="dropdown-item" value="mode" *ngFor="let mode of modes;let indexOfelement=index;" (click)="setMode(indexOfelement)">{{mode}}</button>
         </ul>
       </div>
-      <label class="form-label col-12">Mode</label>
+        <div class="p-2 color-picker">
+          <color-circle class="p-2" [color]="device.color" (onChangeComplete)="setColor($event)"></color-circle>
+        </div>
+
       
-      <input [(colorPicker)]="color" [style.background]="getColor()" (colorPickerSelect)="setColor()" [cpPosition]="'bottom'" 
-        [cpPresetColors]="['#0000ff', '#00ff00', '#ff0000', '#ffff00', '#ff00ff', '#00ffff']"
-      />
-      <label class="form-label col-12">Color</label>
-      <input type="range" #speed (change)="setSpeed(speed.value)" class="custom-range" min="10" max="65535" value="{{device.speed}}">
-      <input type="number" #speedtext (change)="setSpeed(speedtext.value)" class="text-center form-control" min="10" max="65535" value="{{device.speed}}">
-      <label class="form-label col-12">Speed</label>
-      <input type="range" #brightness (change)="setBrightness(brightness.value)" class="custom-range" min="0" max="255" value="{{device.brightness}}">
-      <input type="number" #brightnesstext (change)="setBrightness(brightnesstext.value)" class="text-center form-control" min="0" max="255" value="{{device.brightness}}">
-      <label class="form-label col-12">Brightness</label>
-      <div class="row justify-content-between p-2">
-        <button (click)=toggle() class="btn btn-success col-4" [disabled]="device.isRunning">Turn on</button>
-        <button (click)=toggle() class="btn btn-danger col-4" [disabled]="!device.isRunning">Turn off</button>
+      <input class="custom-range p-2" type="range" #speed (change)="setSpeed(speed.value)" min="4" max="{{maxSpeed}}" step="{{maxSpeed/100}}" value="{{device.speed}}">
+      <label class="text-center">Speed: {{device.speed/(maxSpeed/100) | number:'1.0-0'}}%</label>
+      <input class="custom-range p-2" type="range" #brightness (change)="setBrightness(brightness.value)" min="0" max="{{maxBrightness}}" step="{{maxBrightness/100}}" value="{{device.brightness}}">
+      <label class="text-center">Brightness: {{device.brightness/(maxBrightness/100) | number:'1.0-0'}}%</label>
+      <div class="btn-group text-center p-2">
+        <button (click)=toggle() class="btn btn-success" *ngIf="!device.isRunning">Turn on</button>
+        <button (click)=toggle() class="btn btn-danger" *ngIf="device.isRunning">Turn off</button>
       </div>
-      
-      <div class="row justify-content-between p-2">
-        <button class="btn btn-warning col-12" (click)=setAll(device)>Set all</button>
+      <div class="btn-group p-2">
+        <button class="btn btn-warning" (click)=setAll(device)>Set all</button>
       </div>
     </div>
 </div>

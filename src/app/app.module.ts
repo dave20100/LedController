@@ -6,10 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeviceComponent } from './components/device/device.component';
 import { RoomComponent } from './components/room/room.component';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
-import { ColorPickerModule } from 'ngx-color-picker';
-
-
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ColorCircleModule } from 'ngx-color/circle';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +18,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ColorPickerModule,
+    ColorCircleModule,
     BsDropdownModule.forRoot()
   ],
   providers: [],
