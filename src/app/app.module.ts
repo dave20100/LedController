@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeviceComponent } from './components/device/device.component';
 import { RoomComponent } from './components/room/room.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ColorCircleModule } from 'ngx-color/circle';
+import { ColorSliderModule } from 'ngx-color/slider';
 import { InfoComponent } from './components/info/info.component';
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { InfoComponent } from './components/info/info.component';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ColorCircleModule,
+    ColorSliderModule,
     BsDropdownModule.forRoot()
   ],
   providers: [],

@@ -12,7 +12,6 @@ import { interval, Subscription } from "rxjs";
 export class RoomComponent {
   modes: string[];
   devices: Device[] = [];
-  sub: Subscription;
 
   constructor(private espService: EspService) { 
     this.espService.getModes().subscribe(response => this.modes = response);
@@ -23,8 +22,6 @@ export class RoomComponent {
         });
       });
     }
-
-    this.sub = interval(10000).subscribe(() => this.updateDevices())
   }
 
   setDevices(): void {
