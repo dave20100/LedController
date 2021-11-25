@@ -25,10 +25,8 @@ export class RoomComponent {
     });
   }
 
-  setDevices(): void {
-    this.devices.forEach((url, device) => {
-      this.espService.setDevice(url, device).subscribe();
-    });
+  setDevices(device: Device): void {
+      this.espService.setDevice(this.devices.get(device), device).subscribe();
   }
 
   setAllDevices(settings: Device): void {

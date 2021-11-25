@@ -1,13 +1,13 @@
+import { Device } from './../../model/device';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ColorEvent } from 'ngx-color';
-import { Device } from 'src/app/model/device';
 
 @Component({
   selector: 'app-device',
   templateUrl: './device.component.html',
   styleUrls: ['./device.component.css']
 })
-export class DeviceComponent implements OnInit {
+export class DeviceComponent {
   @Input() device: Device;
   @Input() modes: string[];
 
@@ -17,47 +17,41 @@ export class DeviceComponent implements OnInit {
   maxSpeed: number = 6000;
   maxBrightness: number = 255;
 
-  constructor() {
+  setMode(index: number): void {
+    this.device.mode = index;
+    this.settingsChanged(this.device);
   }
 
-  ngOnInit(): void {
+  setColor($event: ColorEvent): void {
+    this.device.color = parseInt($event.color.hex.substring(1), 16);
+    this.settingsChanged(this.device);
+  }
+
+  setBrightness(brightness: number): void {
+    this.device.brightness = brightness;
+    this.settingsChanged(this.device);
+  }
+
+  setSpeed(speed: number): void {
+    this.device.speed = this.invertSpeed(speed);
+    this.settingsChanged(this.device);
+  }
+
+  toggle(): void {
+    this.device.isRunning = !this.device.isRunning;
+    this.settingsChanged(this.device);
+  }
+
+  settingsChanged(device: Device) {
+    this.changeInDevices.emit(device);
+  }
+
+  setAll(settings: Device) {
+    this.setAllDevices.emit(settings);
   }
 
   invertSpeed(speed: number)
   {
     return this.maxSpeed - speed;
-  }
-
-  setMode(index: number): void {
-    this.device.mode = index;
-    this.settingsChanged();
-  }
-
-  setColor($event: ColorEvent): void {
-    this.device.color = parseInt($event.color.hex.substring(1), 16);
-    this.settingsChanged();
-  }
-
-  setBrightness(brightness: number): void {
-    this.device.brightness = brightness;
-    this.settingsChanged();
-  }
-
-  setSpeed(speed: number): void {
-    this.device.speed = this.invertSpeed(speed);
-    this.settingsChanged();
-  }
-
-  toggle(): void {
-    this.device.isRunning = !this.device.isRunning;
-    this.settingsChanged();
-  }
-
-  settingsChanged() {
-    this.changeInDevices.emit();
-  }
-
-  setAll(settings: Device) {
-    this.setAllDevices.emit(settings);
   }
 }
