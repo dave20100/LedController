@@ -10,17 +10,22 @@ import { Device } from 'src/app/model/device';
 export class DeviceComponent implements OnInit {
   @Input() device: Device;
   @Input() modes: string[];
-  
+
   @Output() changeInDevices = new EventEmitter();
   @Output() setAllDevices = new EventEmitter<Device>();
 
-  maxSpeed: number = 25000;
+  maxSpeed: number = 6000;
   maxBrightness: number = 255;
 
-  constructor() { 
+  constructor() {
   }
-  
+
   ngOnInit(): void {
+  }
+
+  invertSpeed(speed: number)
+  {
+    return this.maxSpeed - speed;
   }
 
   setMode(index: number): void {
@@ -39,7 +44,7 @@ export class DeviceComponent implements OnInit {
   }
 
   setSpeed(speed: number): void {
-    this.device.speed = speed;
+    this.device.speed = this.invertSpeed(speed);
     this.settingsChanged();
   }
 

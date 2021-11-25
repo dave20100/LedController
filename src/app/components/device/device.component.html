@@ -12,11 +12,13 @@
           <button class="dropdown-item" value="mode" *ngFor="let mode of modes;let indexOfelement=index;" (click)="setMode(indexOfelement)">{{mode}}</button>
         </ul>
       </div>
-      <color-slider class="p-2" [color]="device.color" (onChangeComplete)="setColor($event)"></color-slider>     
-      <input class="custom-range p-2" type="range" #speed (change)="setSpeed(speed.value)" min="4" max="{{maxSpeed}}" step="{{maxSpeed/100}}" value="{{device.speed}}">
-      <label class="text-center">Speed: {{device.speed/(maxSpeed/100) | number:'1.0-0'}}%</label>
+
+      <color-slider class="p-2" [color]="device.color" (onChangeComplete)="setColor($event)"></color-slider>
+      <input class="custom-range p-2" type="range" #speed (change)="setSpeed(speed.value)" min="0" max="{{maxSpeed}}" step="{{maxSpeed/100}}" value="{{invertSpeed(device.speed)}}">
+      <label class="text-center">Speed: {{invertSpeed(device.speed)/(maxSpeed/100) | number:'1.0-0'}}%</label>
       <input class="custom-range p-2" type="range" #brightness (change)="setBrightness(brightness.value)" min="0" max="{{maxBrightness}}" step="{{maxBrightness/100}}" value="{{device.brightness}}">
       <label class="text-center">Brightness: {{device.brightness/(maxBrightness/100) | number:'1.0-0'}}%</label>
+
       <div class="btn-group text-center">
         <button (click)=toggle() class="btn btn-success" *ngIf="!device.isRunning">Turn on</button>
         <button (click)=toggle() class="btn btn-danger" *ngIf="device.isRunning">Turn off</button>
