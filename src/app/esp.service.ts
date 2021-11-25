@@ -9,15 +9,11 @@ export class EspService {
 
     constructor(private http: HttpClient) { }
 
-    getModes(): Observable<string[]> {
-        return this.http.get<string[]>(this.EspUrl[0] + "/modes");
+    getDevices(url: string): Observable<Device[]> {
+        return this.http.get<Device[]>(url + '/devices');
     }
 
-    getDevices(index: number): Observable<Device[]> {
-        return this.http.get<Device[]>(this.EspUrl[index] + '/devices');
-    }
-
-    setDevices(index: number, devices: Device[]) {
-        return this.http.post(this.EspUrl[index] + '/devices', devices)
+    setDevice(url: string, devices: Device) {
+        return this.http.post(url + '/devices', devices)
     }
 }

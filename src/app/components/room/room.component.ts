@@ -1,7 +1,7 @@
+import { ModesService } from './../../modes.service';
 import { Component } from '@angular/core';
 import { EspService } from 'src/app/esp.service';
 import { Device } from 'src/app/model/device';
-import { interval, Subscription } from "rxjs";
 
 @Component({
   selector: 'app-room',
@@ -11,53 +11,34 @@ import { interval, Subscription } from "rxjs";
 })
 export class RoomComponent {
   modes: string[];
-  devices: Device[] = [];
+  devices = new Map<Device, string>();
 
-  constructor(private espService: EspService) { 
-    this.espService.getModes().subscribe(response => this.modes = response);
-    for (let index = 0; index < this.espService.EspUrl.length; index++) {
-      this.espService.getDevices(index).subscribe(response => {
+  constructor(private espService: EspService, private modesService: ModesService) {
+    this.modes = this.modesService.getModes();
+
+    this.espService.EspUrl.forEach(url => {
+      this.espService.getDevices(url).subscribe(response =>{
         response.forEach(device => {
-          this.devices.push(device);
-        });
-      });
-    }
+          this.devices.set(device, url);
+        })
+      })
+    });
   }
 
   setDevices(): void {
-    for (let index = 0; index < this.espService.EspUrl.length; index++) {
-      this.espService.setDevices(index, this.devices).subscribe();
-    }
+    this.devices.forEach((url, device) => {
+      this.espService.setDevice(url, device).subscribe();
+    });
   }
 
   setAllDevices(settings: Device): void {
-    this.devices.forEach(deviceSettings => {
-      deviceSettings.color = settings.color;
-      deviceSettings.mode = settings.mode;
-      deviceSettings.speed = settings.speed;
-      deviceSettings.isRunning = settings.isRunning;
-      deviceSettings.brightness = settings.brightness;
-    });
-    for (let index = 0; index < this.espService.EspUrl.length; index++) {
-      this.espService.setDevices(index, this.devices).subscribe();
-    }
-  }
-
-  updateDevices(): void {
-    for (let index = 0; index < this.espService.EspUrl.length; index++) {
-      this.espService.getDevices(index).subscribe(response => {
-        response.forEach(responseDevice => {
-          this.devices.forEach(device => {
-            if(responseDevice.name === device.name) {
-              device.color = responseDevice.color;
-              device.mode = responseDevice.mode;
-              device.speed = responseDevice.speed;
-              device.isRunning = responseDevice.isRunning;
-              device.brightness = responseDevice.brightness;  
-            }
-          })
-        })
-      })
-    }
+    this.devices.forEach((url, device) => {
+      device.brightness = settings.brightness;
+      device.color = settings.color;
+      device.isRunning = settings.isRunning;
+      device.mode = settings.mode;
+      device.speed = settings.speed;
+      this.espService.setDevice(url, device).subscribe();
+    })
   }
 }
